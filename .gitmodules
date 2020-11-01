@@ -17,3 +17,7 @@
 	path = snig-services
 	url = https://github.com/ricardogsena/snig-services.git
 	branch = 3.4.x
+[submodule "schemas/iso19139.pt.mig.2.0"]
+	path = schemas/iso19139.pt.mig.2.0
+	url = https://github.com/ricardogsena/iso19139.pt.mig.2.0.git
+	branch = 3.4.x
