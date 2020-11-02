@@ -125,7 +125,8 @@
 
 
       <xsl:apply-templates select="*[name(.)='gmd:MD_Metadata' or @gco:isoType='gmd:MD_Metadata']"
-                           mode="metadata"/>
+                           mode="metadata">                   
+	  </xsl:apply-templates>
 
       <xsl:apply-templates mode="index" select="*"/>
 
@@ -176,6 +177,346 @@
     <xsl:for-each select="gmd:identificationInfo//gmd:MD_DataIdentification|
                 gmd:identificationInfo//*[contains(@gco:isoType, 'MD_DataIdentification')]|
                 gmd:identificationInfo/srv:SV_ServiceIdentification">
+
+	  <!-- Custom SNIG -->
+	  <!-- Cartografia -->	 
+	  <xsl:for-each select="//gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword/gco:CharacterString[lower-case(normalize-space(.))='cartografia homologada']">
+        <Field name="cartografia" string="Cartografia Homologada" store="true" index="true"/>
+      </xsl:for-each>
+	  <xsl:for-each select="//gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword/gco:CharacterString[lower-case(normalize-space(.))='cartografia oficial']">
+        <Field name="cartografia" string="Cartografia Oficial" store="true" index="true"/>
+      </xsl:for-each>
+      <xsl:if test="not(//gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword/gco:CharacterString[matches(lower-case(normalize-space(.)), 'cartografia homologada|cartografia oficial')])">
+		<Field name="cartografia" string="cartografia_undefined" store="true" index="true"/>
+      </xsl:if>      
+      
+      <!-- Cobertura Geográfica -->
+      <xsl:for-each select="//gmd:geographicElement/gmd:EX_GeographicDescription/gmd:geographicIdentifier/gmd:MD_Identifier/gmd:code/gco:CharacterString[lower-case(normalize-space(.))='pt']">
+          <Field name="geographicCoverage" string="PT" store="true" index="true"/>
+          <Field name="geographicCoverageDesc" string="Portugal" store="true" index="true"/>
+      </xsl:for-each>      
+      <xsl:for-each select="//gmd:geographicElement/gmd:EX_GeographicDescription/gmd:geographicIdentifier/gmd:MD_Identifier/gmd:code/gco:CharacterString[lower-case(normalize-space(.))='pt1']">
+          <Field name="geographicCoverage" string="PT1" store="true" index="true"/>
+          <Field name="geographicCoverageDesc" string="Portugal Continental" store="true" index="true"/>
+      </xsl:for-each>
+      <xsl:for-each select="//gmd:geographicElement/gmd:EX_GeographicDescription/gmd:geographicIdentifier/gmd:MD_Identifier/gmd:code/gco:CharacterString[lower-case(normalize-space(.))='pt2']">
+          <Field name="geographicCoverage" string="PT2" store="true" index="true"/>
+          <Field name="geographicCoverageDesc" string="Região Autónoma dos Açores" store="true" index="true"/>
+      </xsl:for-each>
+      <xsl:for-each select="//gmd:geographicElement/gmd:EX_GeographicDescription/gmd:geographicIdentifier/gmd:MD_Identifier/gmd:code/gco:CharacterString[lower-case(normalize-space(.))='pt3']">
+          <Field name="geographicCoverage" string="PT3" store="true" index="true"/>
+          <Field name="geographicCoverageDesc" string="Região Autónoma da Madeira" store="true" index="true"/>
+      </xsl:for-each>
+      <xsl:if test="//gmd:geographicElement/gmd:EX_GeographicDescription/gmd:geographicIdentifier/gmd:MD_Identifier/gmd:code/gco:CharacterString[starts-with(lower-case(normalize-space(.)),'pt') and string-length(normalize-space(.)) > 3]">
+		<Field name="geographicCoverage" string="{string(.)}" store="true" index="true"/>
+		<Field name="geographicCoverageDesc" string="Local" store="true" index="true"/>       	
+      </xsl:if>
+      <xsl:for-each select="//gmd:geographicElement/gmd:EX_GeographicDescription/gmd:geographicIdentifier/gmd:MD_Identifier/gmd:code/gco:CharacterString[lower-case(normalize-space(.))='local']">
+          <Field name="geographicCoverage" string="Local" store="true" index="true"/>
+          <Field name="geographicCoverageDesc" string="Local" store="true" index="true"/>
+      </xsl:for-each>      
+      <xsl:if test="not(//gmd:geographicElement/gmd:EX_GeographicDescription/gmd:geographicIdentifier/gmd:MD_Identifier/gmd:code/gco:CharacterString[starts-with(lower-case(normalize-space(.)),'pt') or lower-case(normalize-space(.))='local'])">
+        <Field name="geographicCoverage" string="geographicCoverage_undefined" store="true" index="true"/>
+		<Field name="geographicCoverageDesc" string="geographicCoverage_undefined" store="true" index="true"/>
+      </xsl:if>
+      
+      <!-- INSPIRECORE -->
+      <xsl:for-each select="//gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword/gco:CharacterString[lower-case(normalize-space(.))='inspirecore']">
+          <Field name="inspirecore" string="{string(.)}" store="true" index="true"/>
+      </xsl:for-each>
+      
+      <!-- Com serviços de visualização ou download -->
+      <xsl:for-each select="//gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword/gco:CharacterString[lower-case(normalize-space(.))='infomapaccessservice']">
+          <Field name="openServiceType" string="view" store="true" index="true"/>
+      </xsl:for-each>
+	  <xsl:for-each select="//gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword/gco:CharacterString[lower-case(normalize-space(.))='infofeatureaccessservice']">
+          <Field name="openServiceType" string="download" store="true" index="true"/>
+      </xsl:for-each>
+      <xsl:if test="//gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword/gco:CharacterString[lower-case(normalize-space(.))='infomapaccessservice'] and 
+      		//gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword/gco:CharacterString[lower-case(normalize-space(.))='infofeatureaccessservice']">
+		  <Field name="openServiceType" string="viewAndDowload" store="true" index="true"/>       	
+      </xsl:if>      
+      <xsl:if test="not(//gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword/gco:CharacterString[matches(lower-case(normalize-space(.)),
+      	'infomapaccessservice|infofeatureaccessservice')])">
+		<Field name="openServiceType" string="openServiceType_undefined" store="true" index="true"/>       	
+      </xsl:if>
+      
+      <!-- Política de Dados -->         
+      <xsl:for-each select="//gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints/gmx:Anchor[contains(normalize-space(@xlink:href), 'http://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/')]">
+      	<Field name="legalConstraintsAnchor" string="{string(.)}" store="true" index="true"/>
+      </xsl:for-each>      
+      <xsl:for-each select="//gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints/gmx:Anchor[contains(normalize-space(@xlink:href), 'http://inspire.ec.europa.eu/metadata-codelist/ConditionsApplyingToAccessAndUse/')]">
+      	<Field name="legalConstraintsAnchor" string="{string(.)}" store="true" index="true"/>
+      </xsl:for-each>
+      
+      <xsl:if test="//gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints/gmx:Anchor[contains(normalize-space(@xlink:href), 'http://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/noLimitations')]
+      	or //gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints/gmx:Anchor[contains(normalize-space(@xlink:href), 'http://inspire.ec.europa.eu/metadata-codelist/ConditionsApplyingToAccessAndUse/noConditionsApply')]
+      	or //gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:useLimitation//gco:CharacterString[starts-with(lower-case(normalize-space(.)),'sem restrições')]
+      	or //gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints/gco:CharacterString[starts-with(lower-case(normalize-space(.)),'sem restrições')]">
+      	<Field name="dataPolicy" string="Dados abertos" store="true" index="true"/>
+      </xsl:if>      
+      <xsl:if test="//gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints/gmx:Anchor[contains(normalize-space(@xlink:href), 'http://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/INSPIRE_Directive_Article13_1')]
+      	or //gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:useLimitation//gco:CharacterString[starts-with(lower-case(normalize-space(.)),'com restrições')]
+      	or //gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:useLimitation//gco:CharacterString[starts-with(lower-case(normalize-space(.)),'uso restrito')]
+      	or gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword/gco:CharacterString[lower-case(normalize-space(.))='dl_180_2009_art20_1']
+      	or gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword/gco:CharacterString[matches(lower-case(normalize-space(.)), 'dl_180_2009_art20_2a|dl_180_2009_art20_2b|dl_180_2009_art20_2c|dl_180_2009_art20_2d|dl_180_2009_art20_2e|dl_180_2009_art20_2f|dl_180_2009_art20_2g|dl_180_2009_art20_2h')]
+      	or gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword/gco:CharacterString[lower-case(normalize-space(.))='dl_180_2009_art18_2']">
+      	<Field name="dataPolicy" string="Com restrições" store="true" index="true"/>
+      </xsl:if>
+      <xsl:if test="//gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints/gmx:Anchor[contains(normalize-space(@xlink:href), 'http://inspire.ec.europa.eu/metadata-codelist/ConditionsApplyingToAccessAndUse/conditionsUnknown')]
+      	or //gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:useLimitation//gco:CharacterString[starts-with(lower-case(normalize-space(.)),'condições desconhecidas')]
+      	or (not(//gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints/gmx:Anchor[contains(normalize-space(@xlink:href), 'http://inspire.ec.europa.eu/metadata-codelist/ConditionsApplyingToAccessAndUse/noConditionsApply')])
+        and not(//gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints/gmx:Anchor[contains(normalize-space(@xlink:href), 'http://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/')])
+      	and not(//gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:useLimitation//gco:CharacterString[starts-with(lower-case(normalize-space(.)),'sem restrições')])
+        and not(//gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints/gco:CharacterString[starts-with(lower-case(normalize-space(.)),'sem restrições')])
+        and not(//gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:useLimitation//gco:CharacterString[starts-with(lower-case(normalize-space(.)),'com restrições')])
+      	and not(//gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:useLimitation//gco:CharacterString[starts-with(lower-case(normalize-space(.)),'uso restrito')])
+      	and not(//gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:useLimitation//gco:CharacterString[starts-with(lower-case(normalize-space(.)),'condições desconhecidas')])
+      	and not(gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword/gco:CharacterString[matches(lower-case(normalize-space(.)),
+      	'dl_180_2009_art20_1|dl_180_2009_art20_2a|dl_180_2009_art20_2b|dl_180_2009_art20_2c|dl_180_2009_art20_2d|dl_180_2009_art20_2e|dl_180_2009_art20_2f|dl_180_2009_art20_2g|dl_180_2009_art20_2h|dl_180_2009_art18_2')]))">
+      	<Field name="dataPolicy" string="dataPolicy_undefined" store="true" index="true"/>
+      </xsl:if>
+	  
+	              
+      <!-- Denominator Scale Range -->
+      <xsl:for-each select="//gmd:spatialResolution/gmd:MD_Resolution/gmd:equivalentScale/gmd:MD_RepresentativeFraction/gmd:denominator/gco:Integer">
+		<xsl:choose>
+		  <xsl:when test="number(.) >= 100000">
+	          <Field name="denominatorRange"
+	                 string="01_100000" store="true"
+	                 index="true"/>
+          </xsl:when>
+		  <xsl:when test="number(.) > 10000">
+	          <Field name="denominatorRange"
+	                 string="02_10000_100000" store="true"
+	                 index="true"/>
+          </xsl:when>
+          <xsl:when test="number(.) > 0">
+	          <Field name="denominatorRange"
+	                 string="03_10000" store="true"
+	                 index="true"/>
+          </xsl:when>
+      	</xsl:choose>
+      </xsl:for-each>
+      <xsl:if test="not(//gmd:spatialResolution/gmd:MD_Resolution/gmd:equivalentScale/gmd:MD_RepresentativeFraction/gmd:denominator/gco:Integer[text() and number() > 0])">
+		<Field name="denominatorRange"
+				string="denominator_undefined" store="true"
+		        index="true"/>       	
+      </xsl:if>      
+      
+      <!-- Resolution Range -->
+      <xsl:for-each select="//gmd:spatialResolution/gmd:MD_Resolution/gmd:distance/gco:Distance">
+		<xsl:choose>
+		  <xsl:when test="number(.) >= 100">
+	          <Field name="resolutionRange"
+	                 string="01_100" store="true"
+	                 index="true"/>
+          </xsl:when>
+		  <xsl:when test="number(.) > 10">
+	          <Field name="resolutionRange"
+	                 string="02_10_100" store="true"
+	                 index="true"/>
+          </xsl:when>
+          <xsl:when test="number(.) > 0">
+	          <Field name="resolutionRange"
+	                 string="03_10" store="true"
+	                 index="true"/>
+          </xsl:when>
+      	</xsl:choose>
+      </xsl:for-each>
+      <xsl:if test="not(//gmd:spatialResolution/gmd:MD_Resolution/gmd:distance/gco:Distance[text() and number() > 0])">
+		<Field name="resolutionRange"
+				string="resolution_undefined" store="true"
+		        index="true"/>       	
+      </xsl:if>      
+            
+      <!-- Data de Referência -->
+      <xsl:variable name="referenceDateRevision">
+        <xsl:for-each select="gmd:citation/gmd:CI_Citation/gmd:date/gmd:CI_Date[gmd:dateType/gmd:CI_DateTypeCode/@codeListValue='revision']/gmd:date/substring(gco:Date[.!='']|gco:DateTime[.!=''], 0, 11)">
+          <xsl:sort select="." order="descending" />
+          <xsl:if test="position() = 1">
+            <xsl:value-of select="."/>
+          </xsl:if>
+        </xsl:for-each>
+      </xsl:variable>
+      <xsl:variable name="referenceDateCreation">
+        <xsl:for-each select="gmd:citation/gmd:CI_Citation/gmd:date/gmd:CI_Date[gmd:dateType/gmd:CI_DateTypeCode/@codeListValue='creation']/gmd:date/substring(gco:Date[.!='']|gco:DateTime[.!=''], 0, 11)">
+          <xsl:sort select="." order="descending" />
+          <xsl:if test="position() = 1">
+            <xsl:value-of select="."/>
+          </xsl:if>
+        </xsl:for-each>
+      </xsl:variable>
+      <xsl:variable name="referenceDatePublication">
+        <xsl:for-each select="gmd:citation/gmd:CI_Citation/gmd:date/gmd:CI_Date[gmd:dateType/gmd:CI_DateTypeCode/@codeListValue='publication']/gmd:date/substring(gco:Date[.!='']|gco:DateTime[.!=''], 0, 11)">
+          <xsl:sort select="." order="descending" />
+          <xsl:if test="position() = 1">
+            <xsl:value-of select="."/>
+          </xsl:if>
+        </xsl:for-each>
+      </xsl:variable>
+      <xsl:choose>
+		  <xsl:when test="$referenceDateRevision !=''">
+			<xsl:call-template name="CreateReferenceDateFields">
+				<xsl:with-param name="referenceDate" select="$referenceDateRevision" />
+			</xsl:call-template>
+		  </xsl:when>
+		  <xsl:when test="$referenceDateCreation !=''">
+		  	<xsl:call-template name="CreateReferenceDateFields">
+		  		<xsl:with-param name="referenceDate" select="$referenceDateCreation" />
+		  	</xsl:call-template>
+		  </xsl:when>
+		  <xsl:when test="$referenceDatePublication !=''">
+		  	<xsl:call-template name="CreateReferenceDateFields">
+		  		<xsl:with-param name="referenceDate" select="$referenceDatePublication" />
+		  	</xsl:call-template>
+		  </xsl:when>
+	 </xsl:choose>
+	 
+	 <!-- Data de Referência para Ordenação -->
+	 <xsl:choose>
+	 	<xsl:when test="$referenceDateRevision !=''">
+	 		<Field name="referenceDateOrd" string="{string($referenceDateRevision)}" store="true" index="true"/>
+	 	</xsl:when>
+	 	<xsl:when test="$referenceDateCreation !=''">
+	 		<Field name="referenceDateOrd" string="{string($referenceDateCreation)}" store="true" index="true"/>
+	 	</xsl:when>
+	 	<xsl:when test="$referenceDatePublication !=''">
+	 		<Field name="referenceDateOrd" string="{string($referenceDatePublication)}" store="true" index="true"/>
+	 	</xsl:when>
+	 	<xsl:otherwise>
+	 		<Field name="referenceDateOrd" string="0001-01-01" store="true" index="true"/>
+	 	</xsl:otherwise>
+	 </xsl:choose>	  
+	 
+	  <!-- Formato dos Dados -->
+	  <!-- 
+      <xsl:for-each select="//gmd:distributionInfo/gmd:MD_Distribution/gmd:distributionFormat/gmd:MD_Format/gmd:name/gco:CharacterString">
+			<xsl:if test="matches(lower-case(normalize-space(.)),'shapefile|shape|shp')">
+				<Field name="dataFormat" string="Shapefile" store="true" index="true"/>
+			</xsl:if>
+			<xsl:if test="matches(lower-case(normalize-space(.)),'geojson')">
+				<Field name="dataFormat" string="GeoJSON" store="true" index="true"/>
+			</xsl:if>
+			<xsl:if test="matches(lower-case(normalize-space(.)),'atom')">
+				<Field name="dataFormat" string="ATOM" store="true" index="true"/>
+			</xsl:if>
+			<xsl:if test="matches(lower-case(normalize-space(.)),'gml')">
+				<Field name="dataFormat" string="GML" store="true" index="true"/>
+			</xsl:if>
+			<xsl:if test="matches(lower-case(normalize-space(.)),'jpeg|jpg')">
+				<Field name="dataFormat" string="JPEG" store="true" index="true"/>
+			</xsl:if>
+			<xsl:if test="matches(lower-case(normalize-space(.)),'tif')">
+				<Field name="dataFormat" string="TIFF" store="true" index="true"/>
+			</xsl:if>
+			<xsl:if test="matches(lower-case(normalize-space(.)),'geodatabase|gdb')">
+				<Field name="dataFormat" string="geodatabase" store="true" index="true"/>
+			</xsl:if>
+			<xsl:if test="matches(lower-case(normalize-space(.)),'dgn')">
+				<Field name="dataFormat" string="DGN" store="true" index="true"/>
+			</xsl:if>
+			<xsl:if test="matches(lower-case(normalize-space(.)),'kml|kmz')">
+				<Field name="dataFormat" string="KML/KMZ" store="true" index="true"/>
+			</xsl:if>
+			<xsl:if test="matches(lower-case(normalize-space(.)),'autocad|dwg|dxf')">
+				<Field name="dataFormat" string="DWG/DXF" store="true" index="true"/>
+			</xsl:if>
+      </xsl:for-each>      
+      <xsl:if test="//gmd:distributionInfo/gmd:MD_Distribution/gmd:distributionFormat/gmd:MD_Format/gmd:name/gco:CharacterString[not(matches(lower-case(normalize-space(.)),
+				'atom|gml|kml|kmz|geojson|shapefile|shp|shape|geodatabase|gdb|jpeg|jpg|tif|dgn|autocad|dwg|dxf'))]">
+		<Field name="dataFormat"
+				string="dataFormat_other" store="true"
+		        index="true"/>
+      </xsl:if>
+      <xsl:if test="not(//gmd:distributionInfo/gmd:MD_Distribution/gmd:distributionFormat/gmd:MD_Format/gmd:name/gco:CharacterString[. != ''])">
+		<Field name="dataFormat"
+				string="dataFormat_undefined" store="true"
+		        index="true"/>       	
+      </xsl:if>      
+       -->
+      <xsl:for-each select="//gmd:distributionInfo/gmd:MD_Distribution/gmd:distributionFormat/gmd:MD_Format/gmd:name/gco:CharacterString">
+		<xsl:if test="matches(lower-case(normalize-space(.)),'shapefile|shape|shp')">
+			<Field name="dataFormat" string="ESRI Shapefile" store="true" index="true"/>
+		</xsl:if>
+		<xsl:if test="matches(lower-case(normalize-space(.)),'geotif')">
+			<Field name="dataFormat" string="GeoTIFF" store="true" index="true"/>
+		</xsl:if>		
+		<xsl:if test="matches(lower-case(normalize-space(.)),'tif')">
+			<Field name="dataFormat" string="TIFF" store="true" index="true"/>
+		</xsl:if>
+		<xsl:if test="matches(lower-case(normalize-space(.)),'ecw')">
+			<Field name="dataFormat" string="ECW" store="true" index="true"/>
+		</xsl:if>		
+		<xsl:if test="matches(lower-case(normalize-space(.)),'dgn')">
+			<Field name="dataFormat" string="Microstation DGN" store="true" index="true"/>
+		</xsl:if>
+		<xsl:if test="matches(lower-case(normalize-space(.)),'autocad|dwg|dxf')">
+			<Field name="dataFormat" string="Autocad DWG/DXF" store="true" index="true"/>
+		</xsl:if>
+		<xsl:if test="matches(lower-case(normalize-space(.)),'ascii')">
+			<Field name="dataFormat" string="ASCII" store="true" index="true"/>
+		</xsl:if>
+		<xsl:if test="matches(lower-case(normalize-space(.)),'gml')">
+			<Field name="dataFormat" string="GML" store="true" index="true"/>
+		</xsl:if>				
+      </xsl:for-each>      
+      <xsl:if test="//gmd:distributionInfo/gmd:MD_Distribution/gmd:distributionFormat/gmd:MD_Format/gmd:name/gco:CharacterString[not(matches(lower-case(normalize-space(.)),
+				'shapefile|shape|shp|geotif|tif|ecw|dgn|autocad|dwg|dxf|ascii|gml'))]">
+		<Field name="dataFormat"
+				string="dataFormat_other" store="true"
+		        index="true"/>
+      </xsl:if>       
+      <xsl:if test="not(//gmd:distributionInfo/gmd:MD_Distribution/gmd:distributionFormat/gmd:MD_Format/gmd:name/gco:CharacterString[. != ''])">
+		<Field name="dataFormat"
+				string="dataFormat_undefined" store="true"
+		        index="true"/>       	
+      </xsl:if>   
+      
+      <!-- Tipo de Dados -->
+      <!-- 
+      <xsl:for-each
+          select="//gmd:spatialRepresentationType/gmd:MD_SpatialRepresentationTypeCode/@codeListValue[. != '']">
+		<Field name="dataType"
+				string="{string(.)}" store="true"
+		        index="true"/> 
+      </xsl:for-each>
+      <xsl:if test="not(//gmd:spatialRepresentationType/gmd:MD_SpatialRepresentationTypeCode/@codeListValue[. != ''])">
+		<Field name="dataType"
+				string="dataType_undefined" store="true"
+		        index="true"/>       	
+      </xsl:if>
+       -->
+      <xsl:for-each select="//gmd:spatialRepresentationType/gmd:MD_SpatialRepresentationTypeCode/@codeListValue[. != '']">
+        <xsl:if test="matches(lower-case(normalize-space(.)),'vector')">
+			<Field name="dataType" string="{string(.)}" store="true" index="true"/>
+		</xsl:if>
+		<xsl:if test="matches(lower-case(normalize-space(.)),'grid')">
+			<Field name="dataType" string="{string(.)}" store="true" index="true"/>
+		</xsl:if>
+		<xsl:if test="matches(lower-case(normalize-space(.)),'grid')">
+			<Field name="dataType" string="{string(.)}" store="true" index="true"/>
+		</xsl:if>
+		<xsl:if test="not(matches(lower-case(normalize-space(.)),'vector|grid'))">
+			<Field name="dataType" string="dataType_other" store="true" index="true"/>
+		</xsl:if>				 
+      </xsl:for-each>
+      <!-- 
+      <xsl:if test="//gmd:spatialRepresentationType/gmd:MD_SpatialRepresentationTypeCode/@codeListValue[not(matches(lower-case(normalize-space(.)),
+				'vector|grid'))]">
+		<Field name="dataFormat" string="dataType_other" store="true" index="true"/>
+      </xsl:if>
+      -->      
+      <xsl:if test="not(//gmd:spatialRepresentationType/gmd:MD_SpatialRepresentationTypeCode/@codeListValue[. != ''])">
+		<Field name="dataType" string="dataType_undefined" store="true" index="true"/>       	
+      </xsl:if>
+      
+      
+      
+      
+      
+      <!-- End Custom SNIG -->
+      
 
       <xsl:for-each select="gmd:citation/gmd:CI_Citation">
         <xsl:for-each select="gmd:identifier/gmd:MD_Identifier/gmd:code/gco:CharacterString|gmd:identifier/gmd:MD_Identifier/gmd:code/gmx:Anchor">
@@ -489,6 +830,9 @@
 
       <xsl:for-each select="gmd:topicCategory/gmd:MD_TopicCategoryCode">
         <Field name="topicCat" string="{string(.)}" store="true" index="true"/>
+        <Field name="topicCatLang"
+               string="{util:getCodelistTranslation('gmd:MD_TopicCategoryCode', string(.), string($isoLangId))}"
+               store="true" index="true"/>        
         <Field name="keyword"
                string="{util:getCodelistTranslation('gmd:MD_TopicCategoryCode', string(.), string($isoLangId))}"
                store="true" index="true"/>
@@ -766,6 +1110,21 @@
         </xsl:for-each>
       </xsl:for-each>
 
+
+      <!-- Custom SNIG -->
+      <!--  Distributor Contact -->
+      <xsl:for-each select="gmd:distributor/gmd:MD_Distributor/gmd:distributorContact">
+        <xsl:apply-templates mode="index-contact"
+                             select="gmd:CI_ResponsibleParty|*[@gco:isoType = 'gmd:CI_ResponsibleParty']">
+          <xsl:with-param name="type" select="'distribution'"/>
+          <xsl:with-param name="fieldPrefix" select="'responsibleParty'"/>
+          <xsl:with-param name="position" select="position()"/>
+        </xsl:apply-templates>
+      </xsl:for-each>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
     </xsl:for-each>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -842,6 +1201,11 @@
     <xsl:variable name="isPublishedWithWMCProtocol" select="count(gmd:distributionInfo/gmd:MD_Distribution/
                         gmd:transferOptions/gmd:MD_DigitalTransferOptions/gmd:onLine/gmd:CI_OnlineResource/gmd:protocol[starts-with(gco:CharacterString, 'OGC:WMC')]) > 0"/>
 
+	<!-- Custom SNIG -->
+	<xsl:if test="$isDataset">
+        <Field name="type" string="dataset" store="true" index="true"/>
+    </xsl:if>
+
     <xsl:choose>
       <xsl:when test="$isDataset and $isMapDigital and
                             ($isStatic or $isInteractive or $isPublishedWithWMCProtocol)">
@@ -855,11 +1219,15 @@
           </xsl:when>
         </xsl:choose>
       </xsl:when>
+      <!-- Custom SNIG -->
+      <!--
       <xsl:when test="$isDataset">
         <Field name="type" string="dataset" store="true" index="true"/>
       </xsl:when>
-      <xsl:when test="gmd:hierarchyLevel">
-        <xsl:for-each select="gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue[.!='']">
+       -->
+      <!-- Custom SNIG -->
+      <xsl:when test="not($isDataset) and gmd:hierarchyLevel">
+        <xsl:for-each select="gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue[.!='']">        	
           <Field name="type" string="{string(.)}" store="true" index="true"/>
         </xsl:for-each>
       </xsl:when>
@@ -986,7 +1354,6 @@
                         gmd:identificationInfo//*[contains(@gco:isoType, 'MD_DataIdentification')]|
                         gmd:identificationInfo/srv:SV_ServiceIdentification"/>
 
-
     <Field name="anylight" store="false" index="true">
       <xsl:attribute name="string">
         <xsl:for-each
@@ -1002,7 +1369,50 @@
         </xsl:for-each>
       </xsl:attribute>
     </Field>
+    <!-- 
+	<Field name="anylight" store="false" index="true">
+      <xsl:attribute name="string">
+        <xsl:for-each
+          select="$identification/gmd:citation/gmd:CI_Citation/gmd:title/gco:CharacterString|
+					$identification/gmd:citation/gmd:CI_Citation/gmd:alternateTitle/gco:CharacterString|
+                    $identification/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword/gco:CharacterString|
+                    $identification/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword/gmx:Anchor">					
+          <xsl:value-of select="concat(., ' ')"/>
+        </xsl:for-each>
+      </xsl:attribute>
+    </Field>
+    -->  
 
+	<!--<xsl:if test="not(gmd:identificationInfo/srv:SV_ServiceIdentification)">-->
+	<xsl:if test="gmd:identificationInfo//gmd:MD_DataIdentification|
+                        gmd:identificationInfo//*[contains(@gco:isoType, 'MD_DataIdentification')]">
+		<Field name="anysnig" store="false" index="true">
+	      <xsl:attribute name="string">
+	        <xsl:for-each
+	          select="$identification/gmd:citation/gmd:CI_Citation/gmd:title/gco:CharacterString|
+						$identification/gmd:citation/gmd:CI_Citation/gmd:alternateTitle/gco:CharacterString|
+						$identification/gmd:citation/gmd:CI_Citation/gmd:identifier/gmd:MD_Identifier/gmd:code/gco:CharacterString|
+						gmd:fileIdentifier/gco:CharacterString|
+						$identification/gmd:descriptiveKeywords/gmd:MD_Keywords[not(gmd:thesaurusName)]/gmd:keyword/gco:CharacterString|
+						$identification/gmd:descriptiveKeywords/gmd:MD_Keywords[not(gmd:thesaurusName)]/gmd:keyword/gmx:Anchor">					
+	          <xsl:value-of select="concat(., ' ')"/>
+	        </xsl:for-each>
+	      </xsl:attribute>	       
+	    </Field>    
+	    
+		<Field name="anylightsnig" store="false" index="true">
+	      <xsl:attribute name="string">
+	        <xsl:for-each
+	          select="$identification/gmd:citation/gmd:CI_Citation/gmd:title/gco:CharacterString|
+						$identification/gmd:citation/gmd:CI_Citation/gmd:alternateTitle/gco:CharacterString|
+						$identification/gmd:descriptiveKeywords/gmd:MD_Keywords[not(gmd:thesaurusName)]/gmd:keyword/gco:CharacterString|
+						$identification/gmd:descriptiveKeywords/gmd:MD_Keywords[not(gmd:thesaurusName)]/gmd:keyword/gmx:Anchor">
+	          <xsl:value-of select="concat(., ' ')"/>
+	        </xsl:for-each>
+	        -->
+	      </xsl:attribute>
+	    </Field>  
+	</xsl:if>
 
     <!-- Index all codelist -->
     <xsl:for-each select=".//*[*/@codeListValue != '']">
@@ -1013,6 +1423,10 @@
              string="{util:getCodelistTranslation(name(*), string(*/@codeListValue), string($isoLangId))}"
              store="true" index="true"/>
     </xsl:for-each>
+    
+    
+    
+    
   </xsl:template>
 
 
@@ -1024,7 +1438,13 @@
     <xsl:variable name="orgName" select="gmd:organisationName/(gco:CharacterString|gmx:Anchor)"/>
 
     <Field name="orgName" string="{string($orgName)}" store="true" index="true"/>
-    <Field name="orgNameTree" string="{string($orgName)}" store="true" index="true"/>
+    <Field name="orgNameTree" string="{string($orgName)}" store="true" index="true"/>    
+	<!-- Custom SNIG -->
+	<!-- <xsl:if test="$type='resource' or $type='distribution'">  -->	
+	<xsl:if test="$type='resource'">	
+    	<Field name="orgNameSNIG" string="{string($orgName)}" store="true" index="true"/>
+    </xsl:if>	
+	<!-- End Custom SNIG -->
 
     <xsl:variable name="uuid" select="@uuid"/>
     <xsl:variable name="role" select="gmd:role/*/@codeListValue"/>
@@ -1065,6 +1485,31 @@
       <Field name="{$fieldPrefix}RoleAndUuid" string="{$role}|{string(.)}" store="true" index="true"/>
     </xsl:for-each>
   </xsl:template>
+
+<!--  SNIG Templates -->
+<xsl:template name="CreateReferenceDateFields">
+    <xsl:param name="referenceDate" />
+         <Field name="referenceDate"
+                string="{$referenceDate}" store="true"
+                index="true"/>
+       <xsl:choose>
+       <xsl:when test="number(substring($referenceDate, 0, 5)) >= 2015">
+         <Field name="referenceDateRange"
+                string="01_2015_higher" store="true"
+                index="true"/>
+        </xsl:when>
+        <xsl:when test="number(substring($referenceDate, 0, 5)) >= 2005">
+         <Field name="referenceDateRange"
+                string="02_2005_2015" store="true"
+                index="true"/>	          
+        </xsl:when>
+        <xsl:otherwise>
+         <Field name="referenceDateRange"
+                string="03_2005_lower" store="true"
+                index="true"/>         
+        </xsl:otherwise>
+       </xsl:choose>
+</xsl:template>
 
   <!-- ========================================================================================= -->
 

@@ -26,7 +26,7 @@
 
   <codelist name="gmd:CI_DateTypeCode">
     <entry>
-      <code>criation</code>
+      <code>creation</code>
       <label>Criação</label>
       <description>A data identifica quando o recurso foi criado</description>
     </entry>
@@ -47,10 +47,10 @@
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
   </codelist>
   <!-- ==================================================== -->
-  <codelist name="gmd:CI_OnLineFunctionCode">
+  <codelist name="gmd:CI_OnLineFunctionCode" alias="function">
     <entry>
       <code>download</code>
-      <label>Download</label>
+      <label>Descarregamento</label>
       <description>Instruções online para transferir dados duma memória ou sistema a uma outra
       </description>
     </entry>
@@ -69,7 +69,7 @@
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>order</code>
-      <label>Pedido</label>
+      <label>Encomenda</label>
       <description>Processo online de pedido para obter o recurso</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -196,73 +196,71 @@
   <codelist name="gmd:CI_RoleCode" alias="roleCode">
     <entry>
       <code>resourceProvider</code>
-      <label>Fornecedor de recurso</label>
-      <description>Parte que proporciona o recurso</description>
+      <label>Fornecedor</label>
+      <description>Entidade que fornece os recursos</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>custodian</code>
-      <label>Depositário</label>
-      <description>Parte que assume a prestação de contas e a responsabilidade dos dados
-        e assegura o cuidado adequado, assim como a manutenção do recurso
+      <label>Tutor</label>
+      <description>Entidade responsável pela tutela dos dados e pela manutenção dos recursos
       </description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>owner</code>
-      <label>Dono</label>
-      <description>Parte que possui o recurso</description>
+      <label>Detentor</label>
+      <description>Entidade detentora dos direitos de propriedade sobre os recursos</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>user</code>
       <label>Utilizador</label>
-      <description>Parte que usa o recurso</description>
+      <description>Entidade que utiliza os recursos</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>distributor</code>
       <label>Distribuidor</label>
-      <description>Parte que distribui o recurso</description>
+      <description>Entidade que distribui os recursos</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>originator</code>
-      <label>Originador</label>
-      <description>Parte que criou o recurso</description>
+      <label>Produtor</label>
+      <description>Entidade produtora dos recursos</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>pointOfContact</code>
-      <label>Ponto de contacto</label>
-      <description>Parte que pode ser contactado para obter conhecimento sobre (a aquisição) de
-        recurso
+      <label>Contacto</label>
+      <description>Entidade/pessoa contactável para obtenção dos recursos ou de informação sobre os recursos
       </description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>principalInvestigator</code>
-      <label>Investigador principal</label>
-      <description>Parte-chave que é responsável para colher informação e dirigir a pesquisa
+      <label>Investigador Principal</label>
+      <description>Entidade de nível hierárquico superior responsável pela recolha da informação e orientação da investigação
       </description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>processor</code>
-      <label>Organizador</label>
-      <description>Parte que tratou os dados numa maneira que modificou o recurso</description>
+      <label>Contacto do Processo</label>
+      <description>Entidade/pessoa que participou em algum processo conducente à modificação dos recursos</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>publisher</code>
-      <label>Publicador</label>
-      <description>Parte que publicou o recurso</description>
+      <label>Editor</label>
+      <description>Entidade que publicou os recursos</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>author</code>
       <label>Autor</label>
-      <description>Parte que é o autor do recurso</description>
+      <description>Entidade responsável pela autoria dos recursos</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
   </codelist>
@@ -684,7 +682,7 @@
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>topSecret</code>
-      <label>Estritamente sigiloso</label>
+      <label>Altamento secreto</label>
       <description>De altíssimo sigilo</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1000,20 +998,20 @@
   <codelist name="gmd:MD_KeywordTypeCode">
     <entry>
       <code>discipline</code>
-      <label>Disciplina</label>
+      <label>Disciplinar</label>
       <description>Palavra-chave identifica um ramo de instrução ou aprendizagem especilizada
       </description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>place</code>
-      <label>Lugar</label>
+      <label>Toponímica</label>
       <description>Palavra-chave identifica uma localização</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>stratum</code>
-      <label>Estrato</label>
+      <label>Geológica</label>
       <description>Palavra-chave identifica a(s) camada(s) de qualquer substância depositada
       </description>
     </entry>
@@ -1027,22 +1025,28 @@
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>theme</code>
-      <label>Tema</label>
+      <label>Temática</label>
       <description>Palavra-chave identifica um sujeito ou assunto particular</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <entry>
+      <code>taxon</code>
+      <label>Taxonómica</label>
+      <description>Taxonómica</description>
+    </entry>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->    
   </codelist>
   <!-- ==================================================== -->
   <codelist name="gmd:MD_MaintenanceFrequencyCode">
     <entry>
       <code>continual</code>
-      <label>Contínuo</label>
+      <label>Contínua</label>
       <description>Os dados são actualizados repetidamente e frequentemente</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>daily</code>
-      <label>Diário</label>
+      <label>Diária</label>
       <description>Os dados são actualizados todos os dias</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1084,7 +1088,7 @@
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>asNeeded</code>
-      <label>Quando necessário</label>
+      <label>Conforme necessário</label>
       <description>Os dados são actualizados quando é considerado como necessário</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1096,13 +1100,13 @@
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>notPlanned</code>
-      <label>Não planeado</label>
+      <label>Não planeada</label>
       <description>Não há planos para actualizar os dados</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>unknown</code>
-      <label>Desconhecido</label>
+      <label>Desconhecida</label>
       <description>A frequência da manutenção de dados é desconhecida</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1372,7 +1376,7 @@
   <codelist name="gmd:MD_RestrictionCode">
     <entry>
       <code>copyright</code>
-      <label>Direitos de reprodução</label>
+      <label>Direitos de autor</label>
       <description>Direitos em exlusivo à publicação, produção ou venda dos direitos para uma
         obra literária, dramática, musical ou artística, ou para o uso numa impressão comercial ou
         num rótulo,
@@ -1383,7 +1387,7 @@
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>patent</code>
-      <label>Patente</label>
+      <label>Patenteado</label>
       <description>O governo concedeu o direito exclusivo para fazer, vender, usar
         ou dar licenças (d)uma invenção ou descoberta
       </description>
@@ -1391,7 +1395,7 @@
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>patentPending</code>
-      <label>Patente pendente</label>
+      <label>Aguarda patente</label>
       <description>Informação produzida ou vendida a espera duma patente</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1406,7 +1410,7 @@
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>license</code>
-      <label>Licença</label>
+      <label>Sujeito a licenciamento</label>
       <description>Permissão formal para fazer alguma coisa</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -1436,140 +1440,137 @@
     <entry>
       <code>attribute</code>
       <label>Atributo</label>
-      <description>Informação aplica-se à classe de atributos</description>
+      <description>A informação é aplicável a um atributo</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>attributeType</code>
       <label>Tipo de atributo</label>
-      <description>Informação aplica-se à particularidade duma característica</description>
+      <description>A informação é aplicável ao tipo de atributo</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>collectionHardware</code>
-      <label>Hardware de colecção</label>
-      <description>Informação aplica-se à classe de hardware de colecção</description>
+      <label>Equipamento de recolha</label>
+      <description>A informação é aplicável ao equipamento de recolha de dados</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>collectionSession</code>
-      <label>Sessão de colecçõ</label>
-      <description>Informação aplica-se à sessão de colecçõ</description>
+      <label>Sessão de recolha</label>
+      <description>A informação é aplicável a uma sessão de recolha de dados</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>dataset</code>
-      <label>Conjunto de dados</label>
-      <description>Informação aplica-se ao conjunto de dados</description>
+      <label>Conjunto de dados geográficos</label>
+      <description>A informação é aplicável a um conjunto de dados geográficos</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>series</code>
       <label>Série</label>
-      <description>Informação aplica-se à série</description>
+      <description>A informação é aplicável a uma série ou coleção de dados</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>nonGeographicDataset</code>
-      <label>Conjunto de dados não-geográficos</label>
-      <description>Informação aplica-se a dados não-geográficos</description>
+      <label>Conjunto de dados não geográficos</label>
+      <description>A informação é aplicável a um conjunto de dados não geográficos</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>dimensionGroup</code>
-      <label>Grupo de dimensão</label>
-      <description>Informação aplica-se a um grupo de dimensão</description>
+      <label>Grupo de dimensional</label>
+      <description>A informação é aplicável a um grupo de dimensões</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>feature</code>
-      <label>Característica</label>
-      <description>Informação aplica-se a uma característica</description>
+      <label>Entidade</label>
+      <description>A informação é aplicável a uma entidade</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>featureType</code>
-      <label>Tipo de característica</label>
-      <description>Informação aplica-se a feature type</description>
+      <label>Tipo de entidade</label>
+      <description>A informação é aplicável ao tipo da entidade</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>propertyType</code>
       <label>Tipo de propriedade</label>
-      <description>Informação aplica-se a um tipo de propriedade</description>
+      <description>A informação é aplicável ao tipo de propriedade</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>fieldSession</code>
       <label>Sessão de campo</label>
-      <description>Informação aplica-se a uma sessão de campo</description>
+      <description>A informação é aplicável a uma campanha ou sessão de campo</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>software</code>
       <label>Software</label>
-      <description>Informação aplica-se a uma programa ou rotina de computador</description>
+      <description>A informação é aplicável a uma aplicação ou rotina informática</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>service</code>
       <label>Serviço</label>
-      <description>Informação aplica-se a uma capacidade, qual um provedor de acesso à Internet
-        disponibiliza
-        a um utilizador por um conjunto de interfaces, que define um comportamento, tal como um caso
-        de uso
+      <description>A informação é aplicável à capacidade que uma entidade fornecedora disponibiliza a
+			uma entidade cliente através de um conjunto de interfaces que define um dado comportamento
       </description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>model</code>
       <label>Modelo</label>
-      <description>Informação aplica-se a uma cópia ou imitaçõ dum objecto existente ou hipotético
+      <description>A informação é aplicável a uma cópia ou imitação de um objecto real ou hipotético
       </description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>tile</code>
-      <label>Tile</label>
-      <description>Informação aplica-se a um 'tile', um subconjunto espacial de dados geográficos
+      <label>Folha</label>
+      <description>A informação é aplicável a uma folha cartográfica ou subdivisão de informação geográfica
       </description>
     </entry>
 
     <!-- Used for facet translation only and not displayed in editor -->
     <entry hideInEditMode="true">
       <code>map</code>
-      <label>Map</label>
+      <label>Mapa</label>
       <description></description>
     </entry>
     <entry hideInEditMode="true">
       <code>staticMap</code>
-      <label>Static map</label>
+      <label>Mapa estático</label>
       <description></description>
     </entry>
     <entry hideInEditMode="true">
       <code>interactiveMap</code>
-      <label>Interactive map</label>
+      <label>Mapa dinâmico</label>
       <description></description>
     </entry>
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
   </codelist>
   <!-- ==================================================== -->
   <codelist name="gmd:MD_SpatialRepresentationTypeCode">
     <entry>
       <code>vector</code>
-      <label>Vector</label>
+      <label>Vectorial</label>
       <description>Informação vectorial é usada para representar informação geográfica</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>grid</code>
-      <label>Grid</label>
+      <label>Matricial (grid)</label>
       <description>Informação matricial é usada para representar informação geográfica</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>textTable</code>
-      <label>Tabela de texto</label>
+      <label>Texto Tabela</label>
       <description>Dados textuais ou tabelares são usados para representar informação geográfica
       </description>
     </entry>
@@ -1582,7 +1583,7 @@
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <entry>
       <code>stereoModel</code>
-      <label>Modelo estereofónico</label>
+      <label>Modelo estereoscópico</label>
       <description>Vista tridimensional, que é formada pelos reios homólogos intersectandos
         dum par de imagens sobrepostos
       </description>
@@ -1591,7 +1592,7 @@
     <entry>
       <code>video</code>
       <label>Vídeo</label>
-      <description>Cena duma gravação de vídeo</description>
+      <description>Cena obtida de uma gravação de vídeo</description>
     </entry>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
   </codelist>
@@ -2073,4 +2074,46 @@
       <label>Input/output</label>
     </entry>
   </codelist>
+  
+  <codelist name="gco:nilReason">
+    <entry>
+      <code>missing</code>
+      <label>Missing</label>
+    </entry>
+    <entry>
+      <code>inapplicable</code>
+      <label>Inapplicable</label>
+    </entry>
+    <entry>
+      <code>template</code>
+      <label>Template</label>
+    </entry>
+    <entry>
+      <code>unknown</code>
+      <label>Unknown</label>
+    </entry>
+    <entry>
+      <code>withheld</code>
+      <label>With held</label>
+    </entry>
+  </codelist>  
+  
+  <codelist name="indeterminatePosition">
+    <entry>
+      <code>after</code>
+      <label>After</label>
+    </entry>
+    <entry>
+      <code>before</code>
+      <label>Before</label>
+    </entry>
+    <entry>
+      <code>now</code>
+      <label>Now</label>
+    </entry>
+    <entry>
+      <code>unknown</code>
+      <label>Unknown</label>
+    </entry>
+  </codelist>  
 </codelists>

@@ -155,13 +155,13 @@
 
   <!-- ========================================================================================= -->
 
-  <xsl:template match="*" mode="metadata">
+  <xsl:template match="*" mode="metadata">  
     <xsl:param name="langId"/>
     <xsl:param name="isoLangId"/>
 
     <xsl:for-each select="gmd:dateStamp/*">
       <Field name="changeDate" string="{string(.)}" store="true" index="true"/>
-    </xsl:for-each>
+    </xsl:for-each>    
 
     <!-- === Data or Service Identification === -->
 
@@ -226,7 +226,7 @@
         <xsl:for-each
           select="gmd:date/gmd:CI_Date[gmd:dateType/gmd:CI_DateTypeCode/@codeListValue='publication']/gmd:date/gco:Date">
           <Field name="publicationDate" string="{string(.)}" store="true" index="true"/>
-        </xsl:for-each>
+        </xsl:for-each>               
 
         <!-- fields used to search for metadata in paper or digital format -->
 
@@ -238,11 +238,53 @@
           <xsl:if test="contains(gmd:CI_PresentationFormCode/@codeListValue, 'Hardcopy')">
             <Field name="paper" string="true" store="true" index="true"/>
           </xsl:if>
-        </xsl:for-each>
+        </xsl:for-each>        
       </xsl:for-each>
 
-      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
+	  <!-- Data de Referência para Ordenação -->
+      <xsl:variable name="referenceDateRevision">
+        <xsl:for-each select="gmd:citation/gmd:CI_Citation/gmd:date/gmd:CI_Date[gmd:dateType/gmd:CI_DateTypeCode/@codeListValue='revision']/gmd:date/substring(gco:Date[.!='']|gco:DateTime[.!=''], 0, 11)">
+          <xsl:sort select="." order="descending" />
+          <xsl:if test="position() = 1">
+            <xsl:value-of select="."/>
+          </xsl:if>
+        </xsl:for-each>
+      </xsl:variable>
+      <xsl:variable name="referenceDateCreation">
+        <xsl:for-each select="gmd:citation/gmd:CI_Citation/gmd:date/gmd:CI_Date[gmd:dateType/gmd:CI_DateTypeCode/@codeListValue='creation']/gmd:date/substring(gco:Date[.!='']|gco:DateTime[.!=''], 0, 11)">
+          <xsl:sort select="." order="descending" />
+          <xsl:if test="position() = 1">
+            <xsl:value-of select="."/>
+          </xsl:if>
+        </xsl:for-each>
+      </xsl:variable>
+      <xsl:variable name="referenceDatePublication">
+        <xsl:for-each select="gmd:citation/gmd:CI_Citation/gmd:date/gmd:CI_Date[gmd:dateType/gmd:CI_DateTypeCode/@codeListValue='publication']/gmd:date/substring(gco:Date[.!='']|gco:DateTime[.!=''], 0, 11)">
+          <xsl:sort select="." order="descending" />
+          <xsl:if test="position() = 1">
+            <xsl:value-of select="."/>
+          </xsl:if>
+        </xsl:for-each>
+      </xsl:variable>
+	  <xsl:choose>
+	  	<xsl:when test="$referenceDateRevision !=''">
+	  		<Field name="referenceDateOrd" string="{string($referenceDateRevision)}" store="true" index="true"/>
+	  	</xsl:when>
+	  	<xsl:when test="$referenceDateCreation !=''">
+	  		<Field name="referenceDateOrd" string="{string($referenceDateCreation)}" store="true" index="true"/>
+	  	</xsl:when>
+	  	<xsl:when test="$referenceDatePublication !=''">
+	  		<Field name="referenceDateOrd" string="{string($referenceDatePublication)}" store="true" index="true"/>
+	  	</xsl:when>
+	  	<xsl:otherwise>
+	  		<Field name="referenceDateOrd" string="0001-01-01" store="true" index="true"/>
+	  	</xsl:otherwise>
+	  </xsl:choose>
+		
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	
       <xsl:for-each select="gmd:abstract//gmd:LocalisedCharacterString[@locale=$langId]">
         <Field name="abstract" string="{string(.)}" store="true" index="true"/>
       </xsl:for-each>
@@ -427,6 +469,10 @@
 
       <xsl:for-each select="gmd:topicCategory/gmd:MD_TopicCategoryCode">
         <Field name="topicCat" string="{string(.)}" store="true" index="true"/>
+        <Field name="topicCatLang"
+               string="{util:getCodelistTranslation('gmd:MD_TopicCategoryCode', string(.), string($isoLangId))}"
+               store="true"
+               index="true"/>        
         <Field name="keyword"
                string="{util:getCodelistTranslation('gmd:MD_TopicCategoryCode', string(.), string($isoLangId))}"
                store="true"
