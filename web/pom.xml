@@ -470,13 +470,6 @@
       <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
-    <!-- SNIG Customization -->
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>web-ui-snig</artifactId>
-      <version>${project.version}</version>
-      <scope>provided</scope>
-    </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>domain</artifactId>
@@ -805,10 +798,6 @@
             <resource>
               <directory>${project.basedir}/../web-ui/src/main/resources</directory>
             </resource>
-            <!--- SNIG Customization -->
-            <resource>
-              <directory>${project.basedir}/../web-ui-snig/src/main/resources</directory>
-            </resource> 
             <resource>
               <directory>${build.webapp.resources}</directory>
             </resource>
@@ -864,7 +853,6 @@
               <resourcesAsCSV>
                 ${project.basedir}/src/main/webapp,
                 ${rootProjectDir}/web-ui/src/main/resources/,
-                ${rootProjectDir}/web-ui-snig/src/main/resources/,
                 ${build.webapp.resources}
               </resourcesAsCSV>
             </baseResource>

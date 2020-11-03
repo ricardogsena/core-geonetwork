@@ -21,7 +21,7 @@
 	path = schemas/iso19139.pt.mig.2.0
 	url = https://github.com/ricardogsena/iso19139.pt.mig.2.0.git
 	branch = 3.4.x
-[submodule "web-ui-snig"]
-	path = web-ui-snig
-	url = https://github.com/ricardogsena/web-ui-snig.git
+[submodule "web-ui/src/main/resources/catalog/views/snig"]
+	path = web-ui/src/main/resources/catalog/views/snig
+	url = https://github.com/ricardogsena/geonetwork-snig-view
 	branch = 3.4.x
