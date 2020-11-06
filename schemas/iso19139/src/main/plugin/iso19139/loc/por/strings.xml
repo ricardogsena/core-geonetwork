@@ -179,28 +179,4 @@
 
   <sds-section-custodian>Responsible custodian</sds-section-custodian>
   <sds-addOperation>Add Operation</sds-addOperation>
-  
-  
-  <!-- Missing Strings (Ricardo Sena) -->
-  <identificationInfo>Identificação</identificationInfo>
-  <distributionInfo>Distribuição</distributionInfo>
-  <dataQualityInfo>Qualidade</dataQualityInfo>
-  <spatialRepresentationInfo>Representação Espacial</spatialRepresentationInfo>
-  <referenceSystemInfo>Sistema de Referência</referenceSystemInfo>
-  <contentInfo>Conteúdo</contentInfo>
-  <portrayalCatalogueInfo>Representação</portrayalCatalogueInfo>
-  <metadataConstraints>Restrições dos Metadados</metadataConstraints>
-  <metadataMaintenance>Manutenção dos Metadados</metadataMaintenance>
-  <applicationSchemaInfo>Informação do Esquema</applicationSchemaInfo>
-    
-  <metadata>Metadata</metadata>
-  
-  <!-- New strings added for the AngularJS editor -->
-  <!-- View and tabs -->
-  <advanced>Full</advanced>
-  <default>Simple</default>
-  <simple>Simple</simple>
-  <inspire>INSPIRE</inspire>
-  <inspire_sds>SDS</inspire_sds>  
-  
 </strings>
